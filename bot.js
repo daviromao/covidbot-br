@@ -44,11 +44,14 @@ async function postTweet(tweet){
   }
 }
 
+//info
+console.log('Bot is on.');
+
 // Loop interval to post at 12 o'Clock
 setInterval(() => {
   const date = new Date();
 
-  if(date.getHours() == 12 && date.getMinutes() == 00){
+  if(date.getHours() == 12 && date.getMinutes() == 0){
     start();
   }
 
