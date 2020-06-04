@@ -3,8 +3,8 @@
 const dotenv = require('dotenv/config');
 const sleep = require('sleep').sleep;
 
-const model = require('./config').model;
-const covid = require('./covid');
+const model = require('./src/config').model;
+const covid = require('./src/covid');
 
 const Twitter = require('twitter');
 
