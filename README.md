@@ -3,7 +3,7 @@
   <h1>COVID-19 Bot Brasil 🤖</h1>
 </div>
 
-</div align="center">
+<div align="center">
    <a href="https://twitter.com/intent/follow?screen_name=COVIDBotBR" target="_blank"><img src="https://img.shields.io/twitter/follow/COVIDBotBR?style=social"/></a>
 </div>
 
