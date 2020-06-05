@@ -1,11 +1,13 @@
 'use strict';
 
 const dotenv = require('dotenv/config');
+const sleep = require('sleep').sleep;
 
-const model = require('./src/config').model;
+const config = require('./src/config');
 const covid = require('./src/covid');
 
 const Twitter = require('twitter');
+const state = require('./src/state');
 
 const T = new Twitter({
   consumer_key: process.env.APPLICATION_CONSUMER_KEY,
@@ -18,25 +20,45 @@ async function start(){
   const date = new Date();
   const stringDate = `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`;
 
-  const covidDataBrasil = await covid.count('api/report/v1');
-  const tweet = model
-              .replace('{date}', stringDate)
-              .replace('{cases}', covidDataBrasil.cases)
-              .replace('{deaths}', covidDataBrasil.deaths);
+  const dailydata = await covid.get();
+  const content = state.readContent();
 
-  postTweet(tweet);
+  for(let data of dailydata){
+    if(content.includes(data._id)) continue;
+
+    const tweet = createTweetStringFromData(data);
+    
+    await postTweet(tweet);
+    sleep(2);
+
+    content.push(data._id);
+  }
+
+  function createTweetStringFromData(data){
+    const tweet = config.tweetModel
+                  .replace('{newcases}', data.casosNovos)
+                  .replace('{newdeaths}', data.obitosNovos)
+                  .replace('{date}', data._id)
+                  .replace('{cases}', data.casosAcumulado)
+                  .replace('{deaths}', data.obitosAcumulado);
+
+    return tweet;
+  }
+
+  state.save(content);
 }
+
+
 
 async function postTweet(tweet){
   try{
 
     const res = await T.post('statuses/update', {status: tweet});
-    console.log(`
-    - New status -
-    Date: ${res.created_at}
-    ID: ${res.id_str}
-    --------------
-    `);
+    const newStatusLog = config.logModel
+                        .replace('{date}', res.created_at)
+                        .replace('{id}', res.id_str);
+
+    console.log(newStatusLog);
 
   } catch (e){
     console.log(e);
@@ -46,11 +68,12 @@ async function postTweet(tweet){
 //info
 console.log('Bot is on.');
 
+
 // Loop interval to post at 12 o'Clock
 setInterval(() => {
   const date = new Date();
 
-  if(date.getHours() == 12 && date.getMinutes() == 0){
+  if(date.getHours() == 21 && date.getMinutes() == 0){
     start();
   }
 
