@@ -11,7 +11,9 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^8.2.0",
+    "fs": "0.0.1-security",
     "request": "^2.88.2",
+    "sleep": "^6.2.0",
     "twitter": "^1.7.1"
   }
 }
