@@ -69,12 +69,8 @@ async function postTweet(tweet){
 console.log('Bot is on.');
 
 
-// Loop interval to post at 12 o'Clock
+
 setInterval(() => {
-  const date = new Date();
+  start();
 
-  if(date.getHours() == 21 && date.getMinutes() == 0){
-    start();
-  }
-
-}, 60000); // Repeat every 60000 milliseconds (1 minute)
+}, 10*60*1000); // Repeat every 600000 milliseconds (10 minutes)
