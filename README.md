@@ -1,5 +1,6 @@
 <div align="center">
   <img src="https://i.imgur.com/wz5gJkG.png" width="80px"/></br>
+  <a href="https://www.instagram.com/v4randa/"><sup>art by: Vinicius Aranda</sup></a>
   <h1>COVID-19 Bot Brasil 🤖</h1>
 </div>
 
